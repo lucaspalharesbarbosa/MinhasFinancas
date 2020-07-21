@@ -10,8 +10,8 @@ using MinhasFinancas.Models;
 namespace MinhasFinancas.Migrations
 {
     [DbContext(typeof(MinhasFinancasContext))]
-    [Migration("20200721011727_Initial create")]
-    partial class Initialcreate
+    [Migration("20200721020508_AddConta")]
+    partial class AddConta
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace MinhasFinancas.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<DateTime>("Data")
+                    b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")

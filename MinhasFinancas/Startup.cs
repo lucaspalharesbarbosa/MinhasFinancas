@@ -20,6 +20,8 @@ namespace MinhasFinancas {
 
             services.AddDbContext<MinhasFinancasContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MinhasFinancas")));
+
+            services.AddTransient<IContaService, ContaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
