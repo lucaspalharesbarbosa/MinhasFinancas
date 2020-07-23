@@ -5,7 +5,7 @@ namespace MinhasFinancas.Models {
         Conta[] ObterContas(string descricao);
         void Salvar(Conta conta);
         void Excluir(int id);
-        Dictionary<string, decimal> CalcularDespesasPorPeriodo(int periodo);
-        Dictionary<string, decimal> CalcularDespesasPorSemana(int periodo);
+        Dictionary<string, decimal> ObterCalculoDespesasPorPeriodo(int periodo);
+        Dictionary<string, decimal> ObterCalculoDespesasPorSemana(int periodo);
     }
 }

@@ -6,6 +6,10 @@ namespace MinhasFinancas.Models {
     [Table("Contas")]
     public class Conta : EntidadeBase {
         [Required]
+        [StringLength(100)]
+        public string Codigo { get; set; }
+
+        [Required]
         [StringLength(200)]
         public string Descricao { get; set; }
 

@@ -31,6 +31,11 @@ namespace MinhasFinancas.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime2");
 

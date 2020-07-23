@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MinhasFinancas.Migrations
 {
-    public partial class AddConta : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,6 +14,7 @@ namespace MinhasFinancas.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DataCadastro = table.Column<DateTime>(nullable: false),
+                    Codigo = table.Column<string>(maxLength: 100, nullable: false),
                     Descricao = table.Column<string>(maxLength: 200, nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(10, 2)", nullable: false),
                     Tipo = table.Column<byte>(nullable: false),

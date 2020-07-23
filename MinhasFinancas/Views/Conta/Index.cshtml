@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Conta>
+
+@{
+    ViewData["Title"] = "Contas";
+}
+<h2>Conta</h2>
+<br />
+<div>
+    <div class="row">
+        <div class="col-lg-3">
+            <button class="btn btn-primary" onclick="IncluirConta(0)">Novo</button>
+            <button class="btn btn-success" onclick="AbrirContaReport()">Relatório de despesas</button>
+        </div>
+        <div class="col-lg-9">
+            <form class="float-right" asp-controller="Conta" asp-action="Index">
+                <div class="">
+                    <input class="form-group" type="text" id="txtTextoPesquisaConta" placeholder="Pesquisar" />
+                    <button class="btn btn-sm btn-default btn-info" type="submit">Filtrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<hr />
+<br />
+<br />
+<table class="table">
+    <thead>
+        <th>@Html.DisplayNameFor(model => model.Codigo)</th>
+        <th>@Html.DisplayNameFor(model => model.Descricao)</th>
+        <th>@Html.DisplayNameFor(model => model.Valor)</th>
+        <th>@Html.DisplayNameFor(model => model.DataCadastro)</th>
+        <th>@Html.DisplayNameFor(model => model.Categoria)</th>
+        <th>Operacao</th>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<div class="modal fade" id="modal-form-nova-conta" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="title" class="modal-title">Adicionar conta</h2>
+                <a href="#" class="close" data-dismiss="modal">x</a> 
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-despesa-report" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="title" class="modal-title">Relatório de despesas</h2>
+                <a href="#" class="close" data-dismiss="modal">x</a>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    var IncluirConta = function (id) {
+        var url = "/Conta/Salvar?id=" + id;
+
+        if (!!id) {
+            $('#title').html("Editar conta");
+        }
+
+        $('#modal-form-nova-conta').load(url, function () {
+            $('#modal-form-nova-conta').modal("show");
+        });
+
+        $('#modal-form-nova-conta').on('shown.bs.modal', function () {
+            $('#calandar-container .input-group-date').datepicker({
+                todayBtn: true,
+                calendarWeeks: true,
+                todayHighlight: true,
+                formar: 'dd/MM/yyyy',
+                autoClose: true,
+                container: '#modal-form-nova-conta modal-body'
+            });
+        });
+
+        var AbrirContaReport = function () {
+
+        }
+    }
+</script>

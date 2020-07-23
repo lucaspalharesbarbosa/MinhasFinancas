@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 using MinhasFinancas.Comum.Extensions;
 using MinhasFinancas.Models;
@@ -35,6 +36,16 @@ namespace MinhasFinancas.Controllers {
             _service.Excluir(id);
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult ResumoContas() {
+            return PartialView("ContaReport");
+        }
+
+        public JsonResult ObterDespesas() {
+            var despesas = _service.ObterCalculoDespesasPorPeriodo(1);
+
+            return new JsonResult(despesas);
         }
     }
 }

@@ -10,8 +10,8 @@ using MinhasFinancas.Models;
 namespace MinhasFinancas.Migrations
 {
     [DbContext(typeof(MinhasFinancasContext))]
-    [Migration("20200721020508_AddConta")]
-    partial class AddConta
+    [Migration("20200723005540_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,11 @@ namespace MinhasFinancas.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Categoria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Codigo")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);

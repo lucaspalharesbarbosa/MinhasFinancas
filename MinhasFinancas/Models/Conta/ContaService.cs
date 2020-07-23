@@ -17,6 +17,8 @@ namespace MinhasFinancas.Models {
             } else {
                 _db.Update(conta);
             }
+
+            _db.SaveChanges();
         }
 
         public void Excluir(int id) {
@@ -32,14 +34,14 @@ namespace MinhasFinancas.Models {
         public Conta[] ObterContas(string descricao) {
             var contas = _db.Contas.ToArray();
 
-            if (!string.IsNullOrEmpty(descricao)) {
+            if (descricao.HasValue()) {
                 contas = contas.Where(c => c.Descricao.Contains(descricao)).ToArray();
             }
 
             return contas;
         }
 
-        public Dictionary<string, decimal> CalcularDespesasPorPeriodo(int periodo) {
+        public Dictionary<string, decimal> ObterCalculoDespesasPorPeriodo(int periodo) {
             var somasDespesasPeriodo = new Dictionary<string, decimal>();
 
             var valorTotalAlimentacao = _db.Contas
@@ -67,7 +69,7 @@ namespace MinhasFinancas.Models {
             return somasDespesasPeriodo;
         }
 
-        public Dictionary<string, decimal> CalcularDespesasPorSemana(int periodo) {
+        public Dictionary<string, decimal> ObterCalculoDespesasPorSemana(int periodo) {
             throw new NotImplementedException();
         }
     }
