@@ -1,8 +1,9 @@
-﻿using System.Diagnostics;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Mvc;
-using MinhasFinancas.Comum.Extensions;
+﻿using Microsoft.AspNetCore.Mvc;
+using MinhasFinancas.Modelo;
+using MinhasFinancas.Modelo.Enums;
 using MinhasFinancas.Models;
+using System;
+using System.Linq;
 
 namespace MinhasFinancas.Controllers {
     public class ContaController : Controller {
@@ -15,16 +16,33 @@ namespace MinhasFinancas.Controllers {
         }
 
         public IActionResult Index(string descricao) {
-            var contas = _service.ObterContas(descricao);
-
-            return View(contas);
+            return View(new ContaViewModel { 
+                DataEmissao = DateTime.Now,
+                Contas = _service.ObterContas(descricao)
+                    .Select(conta => new GridContaViewModel {
+                        Id = conta.Id,
+                        Descricao = conta.Descricao,
+                        DataEmissao = conta.DataCadastro,
+                        Tipo = conta.Tipo,
+                        Categoria = conta.Categoria,
+                        Valor = conta.Valor
+                    }).ToArray()
+            });
         }
 
         [HttpPost]
-        public ActionResult Salvar(Conta conta) {
+        public ActionResult Salvar(ContaViewModel model) {
             if (!ModelState.IsValid) {
                 RedirectToAction("Index");
             }
+
+            var conta = new Conta {
+                Codigo = model.Codigo,
+                Descricao = model.Descricao,
+                Categoria = model.Categoria,
+                Tipo = TipoConta.Pagar,
+                Valor = model.Valor
+            };
 
             _service.Salvar(conta);
 

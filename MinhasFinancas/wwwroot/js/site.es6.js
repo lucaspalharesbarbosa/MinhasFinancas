@@ -21,7 +21,8 @@
         postJson: function (url, data) {
             return $.ajax({
                 url: url,
-                data: JSON.stringify(data),
+                //data: JSON.stringify(data),
+                data: data,
                 type: 'POST',
                 contentType: 'application/json charset=utf-8',
                 dataType: 'json'

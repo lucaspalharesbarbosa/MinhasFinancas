@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Conta>
+﻿@model ContaViewModel
 
 @{
     ViewData["Title"] = "Contas";
@@ -8,7 +8,7 @@
 <div>
     <div class="row">
         <div class="col-lg-3">
-            <button class="btn btn-primary" onclick="IncluirConta(0)">Novo</button>
+            <button class="btn btn-primary" onclick="AbrirModalIncluirEditar(0)">Novo</button>
             <button class="btn btn-success" onclick="AbrirContaReport()">Relatório de despesas</button>
         </div>
         <div class="col-lg-9">
@@ -23,19 +23,28 @@
 </div>
 <hr />
 <br />
-<br />
 <table class="table">
-    <thead>
-        <th>@Html.DisplayNameFor(model => model.Codigo)</th>
-        <th>@Html.DisplayNameFor(model => model.Descricao)</th>
-        <th>@Html.DisplayNameFor(model => model.Valor)</th>
-        <th>@Html.DisplayNameFor(model => model.DataCadastro)</th>
-        <th>@Html.DisplayNameFor(model => model.Categoria)</th>
-        <th>Operacao</th>
-    </thead>
-    <tbody>
-
-    </tbody>
+    <tr>
+        <th>Código</th>
+        <th>Descricao</th>
+        <th>Valor</th>
+        <th>Emissão</th>
+        <th>Categoria</th>
+        <th>Ações</th>
+    </tr>
+    @foreach (var conta in Model.Contas) {
+        <tr>
+            <td>@Html.HiddenFor(m => conta.Id)</td>
+            <td>@Html.DisplayFor(m => conta.Descricao)</td>
+            <td>@Html.DisplayFor(m => conta.Categoria)</td>
+            <td>@Html.DisplayFor(m => conta.DataEmissao)</td>
+            <td>@Html.DisplayFor(m => conta.Categoria)</td>
+            <td>
+                <button class="btn btn-default" onclick="IncluirEditarConta(conta.Id)">Editar</button>
+                <button class="btn btn-danger" onclick="ExcluirConta(conta.Id)">Excluir</button>
+            </td>
+        </tr>
+    }
 </table>
 
 <div class="modal fade" id="modal-form-nova-conta" role="dialog">
@@ -46,7 +55,48 @@
                 <a href="#" class="close" data-dismiss="modal">x</a> 
             </div>
             <div class="modal-body">
-
+                <form id="formulario-conta">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="hidden" asp-for="@Model.Id" />
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.DataEmissao)
+                                @Html.EditorFor(m => m.DataEmissao)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Descricao)
+                                @Html.EditorFor(m => m.Descricao)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Categoria)
+                                @Html.EditorFor(m => m.Categoria)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Valor)
+                                @Html.EditorFor(m => m.Valor)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button type="button" id="btn-salvar-conta" class="btn btn-block btn-info" onclick="Salvar(0)">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -66,33 +116,53 @@
     </div>
 </div>
 
-
-
 <script type="text/javascript">
-    var IncluirConta = function (id) {
+    var AbrirModalIncluirEditar = function (id) {
         var url = "/Conta/Salvar?id=" + id;
 
         if (!!id) {
             $('#title').html("Editar conta");
         }
 
-        $('#modal-form-nova-conta').load(url, function () {
-            $('#modal-form-nova-conta').modal("show");
-        });
+        //$('#modal-form-nova-conta').load(url, function () {
+        //    $('#modal-form-nova-conta').modal("show");
+        //});
 
-        $('#modal-form-nova-conta').on('shown.bs.modal', function () {
-            $('#calandar-container .input-group-date').datepicker({
-                todayBtn: true,
-                calendarWeeks: true,
-                todayHighlight: true,
-                formar: 'dd/MM/yyyy',
-                autoClose: true,
-                container: '#modal-form-nova-conta modal-body'
-            });
-        });
+        $('#modal-form-nova-conta').modal("show");
 
-        var AbrirContaReport = function () {
+        //$('#modal-form-nova-conta').on('shown.bs.modal', function () {
+        //    $('#calandar-container .input-group-date').datepicker({
+        //        todayBtn: true,
+        //        calendarWeeks: true,
+        //        todayHighlight: true,
+        //        formar: 'dd/MM/yyyy',
+        //        autoClose: true,
+        //        container: '#modal-form-nova-conta modal-body'
+        //    });
+        //});
+    }
 
+    var ExcluirConta = function(id) {
+        var confirmou = window.minhasFinancas.confirm("Deseja excluir a conta?");
+        var url = "Conta/Excluir";
+        debugger;
+        if (confirmou) {
+            debugger;
+            minhasFinancas.postJson(url)
+                .done(function (retorno) {
+                    location.href = "/Conta/Index";
+                });
         }
+    }
+
+    var Salvar = function (id) {
+        var url = "/Conta/Salvar?id=" + id;
+        var data = $('#formulario-conta').serialize();
+
+        debugger;
+        minhasFinancas.postJson(url, data)
+            .done(function () {
+                debugger;
+            });
     }
 </script>

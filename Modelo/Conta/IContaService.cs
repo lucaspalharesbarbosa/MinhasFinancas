@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MinhasFinancas.Models {
+namespace MinhasFinancas.Modelo {
     public interface IContaService {
         Conta[] ObterContas(string descricao);
         void Salvar(Conta conta);

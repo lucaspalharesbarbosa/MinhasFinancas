@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MinhasFinancas.Comum;
 using System;
 using System.Linq;
 
-namespace MinhasFinancas.Models {
+namespace MinhasFinancas.Modelo {
     public class MinhasFinancasContext : DbContext {
 
         public MinhasFinancasContext(DbContextOptions<MinhasFinancasContext> options) : base(options) { }

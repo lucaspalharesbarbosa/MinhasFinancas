@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MinhasFinancas.Models {
+namespace MinhasFinancas.Modelo {
     public class ContaService : IContaService {
         private MinhasFinancasContext _db { get; }
 
@@ -12,7 +12,7 @@ namespace MinhasFinancas.Models {
         }
 
         public void Salvar(Conta conta) {
-            if (conta.Id.IsEmpty()) {
+            if (conta.Id.IsEmpty() ) {
                 _db.Add(conta);
             } else {
                 _db.Update(conta);
